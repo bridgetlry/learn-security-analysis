@@ -1,6 +1,7 @@
 import Book  from '../models/book';
 import BookInstance, { IBookInstance }  from '../models/bookinstance';
 import express from 'express';
+import { escapeHTML } from './utils';
 
 const router = express.Router();
 
@@ -22,7 +23,7 @@ router.get('/', async (req, res) => {
     ]);
 
     if (!book) {
-      res.status(404).send(`Book ${id} not found`);
+      res.status(404).send(`Book ${escapeHTML(id)} not found`);
       return;
     }
 
@@ -33,8 +34,9 @@ router.get('/', async (req, res) => {
     });
   } catch (err) {
     console.error('Error fetching book:', err);
-    res.status(500).send(`Error fetching book ${id}`);
+    res.status(500).send(`Error fetching book ${escapeHTML(id)}`);
   }
 });
+
 
 export default router;
